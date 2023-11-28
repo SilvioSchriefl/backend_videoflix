@@ -58,12 +58,12 @@ class ConfirmRegistrationView(APIView):
             user.is_active = True
 
             # Setzen Sie das Bestätigungsfeld auf True
-            user.is_email_confirmed = True
+            user.email_confirmed = True
 
             user.save()
 
             # Hier können Sie die Benutzer zur Erfolgseite weiterleiten
-            return redirect('success-page')
+            return Response({'detail': 'User successfully verified'}, status=status.HTTP_201_CREATED)
         else:
             # Hier können Sie die Benutzer zur Fehlgeschlagen-Seite weiterleiten
             return redirect('failure-page')
