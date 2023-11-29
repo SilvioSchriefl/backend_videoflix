@@ -22,7 +22,10 @@ SECRET_KEY = env("SECRET_KEY", default="unsafe-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'test.silvio-schriefl.de'
+]
 
 
 # Application definition
@@ -50,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend_videoflix.urls'
@@ -143,6 +147,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'noreply.videoflix@gmail.com'  # Ihr Gmail-Konto
 EMAIL_HOST_PASSWORD = 'owgfjtsylhqqhgfi'
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'test.silvio-schriefl.de']
 
 
 
