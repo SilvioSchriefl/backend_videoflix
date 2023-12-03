@@ -2,7 +2,8 @@
 from django.contrib import admin
 from django.urls import path
 from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -13,4 +14,4 @@ urlpatterns = [
     path('reset_pw/<str:uid>/<str:token>/', ResetPasswordView.as_view(), name='reset_pw'),
     path('set_password/', SetNewPasswordView.as_view(), name='set_password'),
     path('log_in/', LoginView.as_view(), name='login'),
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
