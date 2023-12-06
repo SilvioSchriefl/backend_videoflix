@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Video
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
@@ -28,3 +28,9 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('password', 'user_id',)
         extra_kwargs = {'password': {'write_only': True}}
+        
+class GetVideoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Video
+        fields = ('titel', 'description','file', 'created_at')

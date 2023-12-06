@@ -6,6 +6,8 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
+
+
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env("SECRET_KEY")
 
@@ -37,14 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'videoflix',
+    'videoflix.apps.VideoflixConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
+    'debug_toolbar',
+    'django_rq',
+    'import_export',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -152,6 +158,40 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'test.silvio-schriefl.de']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",       
+        "OPTIONS": { 
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },        
+        "KEY_PREFIX": "videoflix"   
+    }
+}
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+CACHE_TTL = 60 * 15
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'USERNAME': 'some-user',
+        'PASSWORD': 'foobared',
+        'DEFAULT_TIMEOUT': 360,
+    }
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+
 
 
 

@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -36,7 +36,8 @@ class Video(models.Model):
     title = models.CharField(max_length=50, blank=True)
     descriptioon = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='videos', max_length=100)
-    created_at = models.DateTimeField(default=datetime.now(timezone.utc))
+    created_at = models.DateTimeField(default=timezone.now)
+    thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
     
     def __str__(self):
         return  self.title

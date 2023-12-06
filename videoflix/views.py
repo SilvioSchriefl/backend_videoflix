@@ -12,8 +12,13 @@ from django.contrib.auth import get_user_model, authenticate, logout
 from django.urls import reverse
 from urllib.parse import quote
 from rest_framework.authtoken.models import Token
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page 
+from django.conf import settings
 
+CACHETTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
+# @cachepage(CACHETTL)
 
 
 class RegisterView(APIView):
