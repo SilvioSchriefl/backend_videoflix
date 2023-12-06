@@ -3,8 +3,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer
-from .models import CustomUser
+from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer
+from .models import CustomUser, Thumbnail
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import redirect
@@ -15,6 +15,7 @@ from rest_framework.authtoken.models import Token
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page 
 from django.conf import settings
+from rest_framework.permissions import IsAuthenticated
 
 CACHETTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
@@ -140,6 +141,16 @@ class SetNewPasswordView(APIView):
             return Response({'detail': 'Password has been changed succesfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        
+class GetThumbnailsView(APIView):
+    permission_classes = [IsAuthenticated] 
+    
+    def get(self, request):
+        thumbnails = Thumbnail.objects.all()
+        serializer = GetThumbnailSerializer(thumbnails, many=True)  
+        return Response(serializer.data)
+        
                         
                                 
     

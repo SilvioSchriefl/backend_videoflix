@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Video
+from .models import CustomUser, Video, Thumbnail
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
@@ -33,4 +33,10 @@ class GetVideoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Video
-        fields = ('titel', 'description','file', 'created_at')
+        fields = '__all__'
+        
+class GetThumbnailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Thumbnail
+        fields = '__all__'
