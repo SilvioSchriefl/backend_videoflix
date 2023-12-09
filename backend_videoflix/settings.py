@@ -25,6 +25,7 @@ SECRET_KEY = env("SECRET_KEY", default="unsafe-secret-key")
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '85.215.79.47'
     '127.0.0.1',
     'test.silvio-schriefl.de'
 ]
@@ -83,12 +84,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend_videoflix.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("DB_NAME"),
         'USER': env("DB_USER"),
         'PASSWORD': env("DB_PASSWORD"),

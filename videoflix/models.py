@@ -42,6 +42,9 @@ class Video(models.Model):
     def __str__(self):
         return  self.title
     
+    def id(self):			
+        return self.id
+    
 class Thumbnail(models.Model):
     thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)

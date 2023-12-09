@@ -3,11 +3,11 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer
-from .models import CustomUser, Thumbnail
+from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer, GetPreviewVideoSerializer, GetVideoSerializer
+from .models import CustomUser, Thumbnail, Video
 from rest_framework.views import APIView
 from django.core.mail import send_mail
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import get_user_model, authenticate, logout
 from django.urls import reverse
 from urllib.parse import quote
@@ -16,6 +16,7 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page 
 from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
+
 
 CACHETTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
 
@@ -150,6 +151,30 @@ class GetThumbnailsView(APIView):
         thumbnails = Thumbnail.objects.all()
         serializer = GetThumbnailSerializer(thumbnails, many=True)  
         return Response(serializer.data)
+
+        
+class GetPreviewVideoView(APIView):
+    permission_classes = [IsAuthenticated] 
+    
+    def get(self, request, video_id):
+        video = get_object_or_404(Video, id=video_id)
+        if video is None:
+                return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = GetPreviewVideoSerializer(video)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class GetVideoView(APIView):
+    permission_classes = [IsAuthenticated] 
+    
+    def get(self, request, video_id):
+        video = get_object_or_404(Video, id=video_id)
+        if video is None:
+                return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = GetVideoSerializer(video)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    
         
                         
                                 

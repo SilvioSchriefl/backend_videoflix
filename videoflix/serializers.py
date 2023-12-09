@@ -29,14 +29,20 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         fields = ('password', 'user_id',)
         extra_kwargs = {'password': {'write_only': True}}
         
-class GetVideoSerializer(serializers.ModelSerializer):
+class GetPreviewVideoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Video
-        fields = '__all__'
+        fields = ('file_480p',)
         
 class GetThumbnailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Thumbnail
         fields = '__all__'
+        
+class GetVideoSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Video
+        fields = ('file',)

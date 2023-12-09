@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, GetThumbnailsView
+from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, GetThumbnailsView, GetPreviewVideoView, GetVideoView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,6 +15,8 @@ urlpatterns = [
     path('set_password/', SetNewPasswordView.as_view(), name='set_password'),
     path('log_in/', LoginView.as_view(), name='login'),
     path('thumbnail/', GetThumbnailsView.as_view(), name='thumbnail'),
+    path('video_preview/<int:video_id>/', GetPreviewVideoView.as_view(), name='preview_video'),
+    path('video/<int:video_id>/', GetVideoView.as_view(), name='video'),
     path("__debug__/", include("debug_toolbar.urls")),
     path('django-rq/', include('django_rq.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
