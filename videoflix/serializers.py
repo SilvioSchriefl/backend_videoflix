@@ -46,6 +46,10 @@ class GetThumbnailSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class GetVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ['title', 'description', 'video_url']
+        
     title = serializers.CharField()
     description = serializers.CharField()
     video_url = serializers.SerializerMethodField()
