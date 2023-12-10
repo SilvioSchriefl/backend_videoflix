@@ -1,4 +1,4 @@
-from videoflix.tasks import convert_480p
+from videoflix.tasks import convert_480p_and_update_model
 from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
@@ -9,7 +9,7 @@ import django_rq
 
 def video_post_save(sender, instance, created, **kwargs):
     if created:
-        convert_480p(instance.file.path)
+        convert_480p_and_update_model(instance.file.path)
         #queue = django_rq.get_queue('default', autocommit=True)
         #queue.enqueue(convert_480p, instance.file.path)
         #queue.enqueue(convert_720p, instance.file.path)
