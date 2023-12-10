@@ -150,7 +150,11 @@ class GetThumbnailsView(APIView):
     def get(self, request):
         thumbnails = Thumbnail.objects.all()
         serializer = GetThumbnailSerializer(thumbnails, many=True)  
-        return Response(serializer.data)
+        data = serializer.data
+        for thumbnail in data:
+            thumbnail['file_url'] = request.build_absolute_uri(thumbnail['thumbnail'])
+
+        return Response(data)
 
         
 class GetPreviewVideoView(APIView):
