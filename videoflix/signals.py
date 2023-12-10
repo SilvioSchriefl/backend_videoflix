@@ -5,11 +5,11 @@ from django.db.models.signals import post_save, post_delete
 import os 
 import django_rq
 
-@receiver(post_save, sender=Video)
 
+@receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     if created:
-        convert_480p_and_update_model(instance.file.path)
+        convert_480p_and_update_model(instance.file.path, instance)
         #queue = django_rq.get_queue('default', autocommit=True)
         #queue.enqueue(convert_480p, instance.file.path)
         #queue.enqueue(convert_720p, instance.file.path)
