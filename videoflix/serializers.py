@@ -46,7 +46,11 @@ class GetThumbnailSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class GetVideoSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Video
-        fields = ('file',)
+    title = serializers.CharField()
+    description = serializers.CharField()
+    video_url = serializers.SerializerMethodField()
+
+    def get_video_url(self, obj):
+        if obj.file:
+            return self.context['request'].build_absolute_uri(obj.file.url)
+        return None
