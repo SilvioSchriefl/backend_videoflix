@@ -34,7 +34,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True)
-    descriptioon = models.CharField(max_length=200, blank=True)
+    description  = models.CharField(max_length=200, blank=True)
     file = models.FileField(upload_to='videos', max_length=100)
     created_at = models.DateTimeField(default=timezone.now)
     file_480p = models.FileField(upload_to='videos/480p', max_length=100, blank=True)
@@ -42,7 +42,7 @@ class Video(models.Model):
     def __str__(self):
         return  self.title
     
-    def id(self):			
+    def video_id(self):			
         return self.id
     
 class Thumbnail(models.Model):
