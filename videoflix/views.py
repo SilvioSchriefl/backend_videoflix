@@ -165,7 +165,8 @@ class GetPreviewVideoView(APIView):
         if video is None:
                 return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            serializer = GetPreviewVideoSerializer(video)
+            video_url = request.build_absolute_uri(video.file.url)
+            serializer = GetPreviewVideoSerializer({'video_url': video_url})
             return Response(serializer.data, status=status.HTTP_200_OK)
         
 class GetVideoView(APIView):
@@ -176,7 +177,8 @@ class GetVideoView(APIView):
         if video is None:
                 return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
-            serializer = GetVideoSerializer(video)
+            video_url = request.build_absolute_uri(video.file.url)
+            serializer = GetVideoSerializer({'video_url': video_url})
             return Response(serializer.data, status=status.HTTP_200_OK)
     
         
