@@ -29,11 +29,15 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         fields = ('password', 'user_id',)
         extra_kwargs = {'password': {'write_only': True}}
         
-class GetPreviewVideoSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Video
-        fields = ('file_480p',)
+class GetPreviewVideoSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+    video_url = serializers.SerializerMethodField()
+
+    def get_video_url(self, obj):
+        if obj.file:
+            return self.context['request'].build_absolute_uri(obj.file.url)
+        return None
         
 class GetThumbnailSerializer(serializers.ModelSerializer):
     
