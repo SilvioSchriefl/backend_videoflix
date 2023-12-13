@@ -23,8 +23,8 @@ def convert_480p_and_update_model(source, video_instance):
         subprocess.check_call(cmd)
         print(f"Konvertierung zu 480p erfolgreich: {source}")
 
-        #video_instance.file_480p.name = f"videos/{file_name_without_extension}_480p.mp4"
-        #video_instance.save()
+        video_instance.file_480p.name = f"videos/{file_name_without_extension}_480p.mp4"
+        video_instance.save()
 
         print(f"Video-Modell aktualisiert mit 480p-Datei: {video_instance.file_480p.name}")
 
