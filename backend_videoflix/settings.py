@@ -194,24 +194,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': '/root/projects/backend_videoflix/django.log',  # Passe den Pfad entsprechend an
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    },
-}
+
 
 
 
