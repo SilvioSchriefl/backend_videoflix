@@ -29,6 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False)
     user_name = models.CharField(max_length=100, default='', blank=False, null=False)
+    watchlist_video = models.CharField(max_length=50, blank=True)
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
     
@@ -53,6 +54,9 @@ class Thumbnail(models.Model):
     
     def __str__(self):
         return  self.title
+    
+
+      
     
 
 

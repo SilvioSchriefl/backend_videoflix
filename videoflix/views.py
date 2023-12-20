@@ -3,8 +3,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer, GetPreviewVideoSerializer, GetVideoSerializer
-from .models import CustomUser, Thumbnail, Video
+from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer, GetPreviewVideoSerializer, GetVideoSerializer, WatchlistSerializer
+from .models import CustomUser, Thumbnail, Video, Watchlist
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
@@ -178,6 +178,20 @@ class GetVideoView(APIView):
         else:
             serializer = GetVideoSerializer(video, context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class WatchlistView(APIView):
+    
+    def post(self, request):
+        user = get_object_or_404(CustomUser, id=request.id)
+        serializer = WatchlistSerializer(user, data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+        
     
         
                         

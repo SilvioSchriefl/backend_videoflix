@@ -58,3 +58,9 @@ class GetVideoSerializer(serializers.ModelSerializer):
         if obj.file:
             return self.context['request'].build_absolute_uri(obj.file.url)
         return None
+    
+class WatchlistSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CustomUser
+        fields = ['watchlist_video', 'id',]
