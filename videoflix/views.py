@@ -79,6 +79,7 @@ class LoginView(APIView):
                         'user_name': user.user_name,
                         'email': user.email,
                         'id': user.id,
+                        'watchlist': user.watchlist
                         }, status=status.HTTP_200_OK)
                 
             return Response({'detail': 'Email or password invalid'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -186,10 +187,7 @@ class WatchlistView(APIView):
     def patch(self, request):
         user_id = request.data.get('id')  # Annahme: Der Benutzer ist authentifiziert und die ID ist verfügbar
         user = get_object_or_404(CustomUser, id=user_id)
-        
-
         serializer = WatchlistSerializer(user, data=request.data, partial=True)
-        
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
