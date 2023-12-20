@@ -4,7 +4,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer, GetPreviewVideoSerializer, GetVideoSerializer, WatchlistSerializer
-from .models import CustomUser, Thumbnail, Video, Watchlist
+from .models import CustomUser, Thumbnail, Video
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
