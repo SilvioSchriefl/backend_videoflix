@@ -29,7 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False)
     user_name = models.CharField(max_length=100, default='', blank=False, null=False)
-    watchlist_video = models.JSONField(default=list, blank=True, null=True)
+    watchlist_video = models.JSONField(default=list, blank=True)
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
     
