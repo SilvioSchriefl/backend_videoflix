@@ -181,9 +181,9 @@ class GetVideoView(APIView):
         
 class WatchlistView(APIView):
     
-    def post(self, request):
+    def patch(self, request):
         user = get_object_or_404(CustomUser, id=request.id)
-        serializer = WatchlistSerializer(user, data=request.data)
+        serializer = WatchlistSerializer(user, data=request.data, partial=True)
         
         if serializer.is_valid():
             serializer.save()
