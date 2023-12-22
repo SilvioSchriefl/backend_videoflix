@@ -63,4 +63,4 @@ class WatchlistSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ['watchlist', 'id',]
+        fields = ['watchlist',]

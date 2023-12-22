@@ -18,7 +18,6 @@ urlpatterns = [
     path('thumbnail/', GetThumbnailsView.as_view(), name='thumbnail'),
     path('video_preview/<int:video_id>/', GetPreviewVideoView.as_view(), name='preview_video'),
     path('video/<int:video_id>/', GetVideoView.as_view(), name='video'),
-    path('watchlist/', WatchlistView.as_view(), name='watchlist'),
     path('watchlist/<int:user_id>/', WatchlistView.as_view(), name='get_watchlist'),
     path("__debug__/", include("debug_toolbar.urls")),
     path('django-rq/', include('django_rq.urls')),

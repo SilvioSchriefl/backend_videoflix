@@ -184,8 +184,7 @@ class WatchlistView(APIView):
     
     permission_classes = [IsAuthenticated] 
     
-    def patch(self, request):
-        user_id = request.data.get('id')  # Annahme: Der Benutzer ist authentifiziert und die ID ist verfügbar
+    def patch(self, request, user_id):
         user = get_object_or_404(CustomUser, id=user_id)
         serializer = WatchlistSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
