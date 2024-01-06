@@ -205,6 +205,18 @@ class WatchlistView(APIView):
         user = get_object_or_404(CustomUser, id=user_id)
         serializer = WatchlistSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+class DeleteAccountView(APIView):
+    permission_classes = [IsAuthenticated] 
+
+    def delete(self, request):
+        user = request.user  
+        user.delete()
+        if user is not None:
+            return Response({"detail": "Account successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
         
 
         

@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, GetThumbnailsView, GetPreviewVideoView, GetVideoView, WatchlistView, LogoutView
+from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, GetThumbnailsView, GetPreviewVideoView, GetVideoView, WatchlistView, LogoutView, DeleteAccountView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -10,6 +10,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', RegisterView.as_view(), name='register'),
+    path('delete_account/', DeleteAccountView.as_view(), name='delete_account'),
     path('confirm-registration/<str:uid>/<str:token>/', ConfirmRegistrationView.as_view(), name='confirm-registration'),
     path('request_reset_password/', RequestResetPasswordView.as_view(), name='request_reset_pw'),
     path('reset_pw/<str:uid>/<str:token>/', ResetPasswordView.as_view(), name='reset_pw'),
