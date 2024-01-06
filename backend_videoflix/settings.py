@@ -155,7 +155,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_USER') 
 EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'test.silvio-schriefl.de']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200', 'test.silvio-schriefl.de', 'videoflix.silvio-schriefl.de']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
