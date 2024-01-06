@@ -27,8 +27,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '85.215.79.47',
     '127.0.0.1',
-    'test.silvio-schriefl.de',
     'silvioschrieflat.de',
+    'videoflix.silvio-schriefl.de',
 ]
 
 
