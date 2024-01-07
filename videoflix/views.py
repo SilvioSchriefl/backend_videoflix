@@ -71,9 +71,12 @@ class LoginView(APIView):
             user = authenticate(request, username=email, password=password)            
             if user is not None:
                 if user.email_confirmed == False:
-                    return Response({'detail': 'Please confirm your email address first'}, status=status.HTTP_401_UNAUTHORIZED)
+                    return Response({'detail': 'Please confirm your email address first'}, status=status.HTTP_403_FORBIDDEN)
                 else:
                     token, created = Token.objects.get_or_create(user=user)
+                    if not created:
+                        token.delete()
+                        token = Token.objects.create(user=user)
                     return Response({
                         'token': token.key,
                         'user_name': user.user_name,
@@ -212,8 +215,9 @@ class DeleteAccountView(APIView):
 
     def delete(self, request):
         user = request.user  
-        user.delete()
+        
         if user is not None:
+            user.delete()
             return Response({"detail": "Account successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
