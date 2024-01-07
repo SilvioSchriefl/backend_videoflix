@@ -117,12 +117,12 @@ class RequestResetPasswordView(APIView):
         reset_link = self.get_reset_link(request, uid, token)
         subject = 'Reset VideoFlix password'
         message = f'Hello {user.user_name}, Please click on the link to reset your password.: {reset_link}'
-        from_email = 'noreply.videoflix@gmail.com'  # Hier Ihre E-Mail-Adresse oder eine allgemeine Adresse
+        from_email = 'noreply@videoflix' 
         recipient_list = [user.email]
         try:
             send_mail(subject, message, from_email, recipient_list, fail_silently=False)
         except Exception as e:
-            return Response({'detail': 'Error sending email. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'detail': 'Error sending email.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
     def get_reset_link(self, request, uid, token):
         return request.build_absolute_uri(reverse('reset_pw', kwargs={'uid': uid, 'token': token}))
@@ -134,10 +134,16 @@ class ResetPasswordView(APIView):
             uid = urlsafe_base64_decode(uid).decode('utf-8')
             user = get_user_model().objects.get(id=uid)
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
-            user = None
-
-        if user is not None and default_token_generator.check_token(user, token):
-            redirect_url = f'http://localhost:4200/#/set_new_password?user_id={uid}'
+            user = None    
+            return redirect(reverse('user-not-found'))
+        if user is not None:
+            if user.password_reset_token_used:
+                return redirect(reverse('password-reset-used'))
+        if user is not None and default_token_generator.check_token(user, token):           
+            if default_token_generator.check_token(user, token):
+                user.password_reset_token_used = True
+                user.save()
+            redirect_url = reverse('reset_pw') + f'?user_id={uid}'
             return redirect(redirect_url)
         else:
             return redirect('failure-page')

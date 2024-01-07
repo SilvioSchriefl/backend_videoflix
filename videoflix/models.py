@@ -28,6 +28,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False)
+    password_reset_token_used = models.BooleanField(default=False)
     user_name = models.CharField(max_length=100, default='', blank=False, null=False)
     watchlist = models.JSONField(default=list, blank=True)
     objects = CustomUserManager()
