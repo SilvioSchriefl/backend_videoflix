@@ -36,9 +36,9 @@ class RegisterView(APIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         confirmation_link = self.get_confirmation_link(request, uid, token)
-        subject = 'Bestätigen Sie Ihre Registrierung'
-        message = f'Vielen Dank für Ihre Registrierung. Bitte klicken Sie auf den folgenden Link, um Ihr Konto zu bestätigen: {confirmation_link}'
-        from_email = 'noreply.videoflix@gmail.com'  # Hier Ihre E-Mail-Adresse oder eine allgemeine Adresse
+        subject = 'Confirm your registration'
+        message = f'Hello {user.user_name}. Thank you for your registration. Please click the following link to verify your account {confirmation_link}'
+        from_email = 'noreply@videoflix.com'  
         recipient_list = [user.email]
         send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
