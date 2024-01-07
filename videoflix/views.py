@@ -53,6 +53,9 @@ class ConfirmRegistrationView(APIView):
             user = get_user_model().objects.get(id=uid)
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
             user = None
+            return redirect('http://localhost:4200/#/user_not_found')
+        if user.password_reset_token_used:
+            return redirect('http://localhost:4200/#/token_used')
         if user is not None and default_token_generator.check_token(user, token):
             user.is_active = True
             user.email_confirmed = True
@@ -134,16 +137,10 @@ class ResetPasswordView(APIView):
             uid = urlsafe_base64_decode(uid).decode('utf-8')
             user = get_user_model().objects.get(id=uid)
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
-            user = None    
-            return redirect(reverse('user-not-found'))
-        if user is not None:
-            if user.password_reset_token_used:
-                return redirect(reverse('password-reset-used'))
-        if user is not None and default_token_generator.check_token(user, token):           
-            if default_token_generator.check_token(user, token):
-                user.password_reset_token_used = True
-                user.save()
-            redirect_url = reverse('reset_pw') + f'?user_id={uid}'
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            redirect_url = f'http://localhost:4200/#/set_new_password?user_id={uid}'
             return redirect(redirect_url)
         else:
             return redirect('failure-page')
