@@ -54,7 +54,7 @@ class ConfirmRegistrationView(APIView):
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
             user = None
             return redirect('https://videoflix.silvio-schriefl.de/#/user_not_found')
-        if user.password_reset_token_used:
+        if user.email_confirmed:
             return redirect('https://videoflix.silvio-schriefl.de/#/token_used')
         if user is not None and default_token_generator.check_token(user, token):
             user.is_active = True
