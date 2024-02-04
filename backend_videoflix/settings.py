@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'silvioschrieflat.de',
     'videoflix.silvio-schriefl.de',
+    'videoflix.silvioschrieflat.de'
 ]
 
 
