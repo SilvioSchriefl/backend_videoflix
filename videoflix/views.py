@@ -62,7 +62,7 @@ class ConfirmRegistrationView(APIView):
             user.save()
             return redirect('https://videoflix.silvio-schriefl.de/#/email_confirmed')
         else:
-            return redirect('failure-page')
+            return redirect('https://videoflix.silvio-schriefl.de/#/email_not_confirmed')
         
 class LoginView(APIView):
     
