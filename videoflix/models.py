@@ -33,6 +33,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     watchlist = models.JSONField(default=list, blank=True)
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
+
+    def __str__(self):
+        return self.user_name
     
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True)
