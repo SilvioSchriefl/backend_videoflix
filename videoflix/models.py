@@ -43,7 +43,7 @@ class Video(models.Model):
     description  = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     file = models.FileField(upload_to='videos', max_length=100, blank=True)
-    thumbnail = models.FileField(upload_to='thumbnails', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     
 

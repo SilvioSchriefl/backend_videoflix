@@ -16,5 +16,5 @@ def delete_video_file(sender, instance, **kwargs):
 @receiver(post_save, sender=Video)
 def save_video(instance, created, **kwargs):
     if created:
-        create_thumbnail(instance.file.path)
+        create_thumbnail(instance)
       
