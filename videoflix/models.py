@@ -42,6 +42,7 @@ class Video(models.Model):
     description  = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     file = models.FileField(upload_to='videos', max_length=100, blank=True)
+    thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
 
     
     def __str__(self):
@@ -50,14 +51,9 @@ class Video(models.Model):
     def video_id(self):			
         return self.id
     
-class Thumbnail(models.Model):
-    thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
     
-    def __str__(self):
-        return  self.title
-    
+   
 
       
     
