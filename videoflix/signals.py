@@ -17,4 +17,4 @@ def delete_video_file(sender, instance, **kwargs):
 def save_video(instance, created, **kwargs):
     if created:
         rq_job = django_rq.enqueue(create_thumbnail, instance)
-        instance.thumbnail = rq_job.id
+        instance.thumbnail = rq_job.result
