@@ -33,6 +33,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     watchlist = models.JSONField(default=list, blank=True)
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
+    
 
     def __str__(self):
         return self.user_name
@@ -43,6 +44,8 @@ class Video(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     file = models.FileField(upload_to='videos', max_length=100, blank=True)
     thumbnail = models.FileField(upload_to='thumbnails', blank=True, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    
 
     
     def __str__(self):
