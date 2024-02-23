@@ -3,8 +3,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, GetThumbnailSerializer, GetPreviewVideoSerializer, GetVideoSerializer, WatchlistSerializer
-from .models import CustomUser, Thumbnail, Video
+from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, VideoSerializer, WatchlistSerializer
+from .models import CustomUser 
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
@@ -159,41 +159,9 @@ class SetNewPasswordView(APIView):
         else:
             return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        
-class GetThumbnailsView(APIView):
-    permission_classes = [IsAuthenticated] 
-    
-    def get(self, request):
-        thumbnails = Thumbnail.objects.all()
-        serializer = GetThumbnailSerializer(thumbnails, many=True)  
-        data = serializer.data
-        for thumbnail in data:
-            thumbnail['file_url'] = request.build_absolute_uri(thumbnail['thumbnail'])
-
-        return Response(data)
 
         
-class GetPreviewVideoView(APIView):
-    permission_classes = [IsAuthenticated] 
-    
-    def get(self, request, video_id):
-        video = get_object_or_404(Video, id=video_id)
-        if video is None:
-            return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            serializer = GetPreviewVideoSerializer(video, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        
-class GetVideoView(APIView):
-    permission_classes = [IsAuthenticated] 
-    
-    def get(self, request, video_id):
-        video = get_object_or_404(Video, id=video_id)
-        if video is None:
-                return Response({'detail': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            serializer = GetVideoSerializer(video, context={'request': request})
-            return Response(serializer.data, status=status.HTTP_200_OK)
+
         
 class WatchlistView(APIView):
     
@@ -224,6 +192,18 @@ class DeleteAccountView(APIView):
             return Response({"detail": "Account successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+class VideoView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = VideoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
         

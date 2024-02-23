@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Video, Thumbnail
+from .models import CustomUser, Video
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
@@ -29,38 +29,16 @@ class SetNewPasswordSerializer(serializers.ModelSerializer):
         fields = ('password', 'user_id',)
         extra_kwargs = {'password': {'write_only': True}}
         
-class GetPreviewVideoSerializer(serializers.Serializer):
-    title = serializers.CharField()
-    description = serializers.CharField()
-    video_url = serializers.SerializerMethodField()
 
-    def get_video_url(self, obj):
-        if obj.file:
-            return self.context['request'].build_absolute_uri(obj.file.url)
-        return None
-        
-class GetThumbnailSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Thumbnail
-        fields = '__all__'
-        
-class GetVideoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Video
-        fields = ['title', 'description', 'video_url']
-        
-    title = serializers.CharField()
-    description = serializers.CharField()
-    video_url = serializers.SerializerMethodField()
-
-    def get_video_url(self, obj):
-        if obj.file:
-            return self.context['request'].build_absolute_uri(obj.file.url)
-        return None
     
 class WatchlistSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
         fields = ['watchlist',]
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ['title', 'description', 'file'] 

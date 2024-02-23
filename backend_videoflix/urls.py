@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, GetThumbnailsView, GetPreviewVideoView, GetVideoView, WatchlistView, LogoutView, DeleteAccountView
+from videoflix.views import RegisterView, ConfirmRegistrationView, LoginView, ResetPasswordView, RequestResetPasswordView, SetNewPasswordView, WatchlistView, LogoutView, DeleteAccountView, VideoView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -16,9 +16,7 @@ urlpatterns = [
     path('reset_pw/<str:uid>/<str:token>/', ResetPasswordView.as_view(), name='reset_pw'),
     path('set_password/', SetNewPasswordView.as_view(), name='set_password'),
     path('log_in/', LoginView.as_view(), name='login'),
-    path('thumbnail/', GetThumbnailsView.as_view(), name='thumbnail'),
-    path('video_preview/<int:video_id>/', GetPreviewVideoView.as_view(), name='preview_video'),
-    path('video/<int:video_id>/', GetVideoView.as_view(), name='video'),
+    path('video/', VideoView.as_view(), name='video'),
     path('watchlist/<int:user_id>/', WatchlistView.as_view(), name='get_watchlist'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path("__debug__/", include("debug_toolbar.urls")),
