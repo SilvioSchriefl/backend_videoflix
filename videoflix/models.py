@@ -42,7 +42,7 @@ class Video(models.Model):
     description  = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     file = models.FileField(upload_to='videos', max_length=100, blank=True)
-    thumbnaile = models.FieldFile(upload_to='thumbnails', max_length=100, blank=True)
+    thumbnail = models.FileField(upload_to='thumbnails', max_length=100, blank=True)
     
     def __str__(self):
         return  self.title
