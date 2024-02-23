@@ -1,6 +1,6 @@
 
 
-from backend_videoflix.videoflix.tasks import create_thumbnail
+from videoflix.tasks import create_thumbnail
 from .models import Video
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete, pre_save
