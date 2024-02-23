@@ -28,8 +28,6 @@ ALLOWED_HOSTS = [
     '85.215.79.47',
     '127.0.0.1',
     'silvioschrieflat.de',
-    'videoflix.silvio-schriefl.de',
-    'videoflix.silvioschrieflat.de'
 ]
 
 
