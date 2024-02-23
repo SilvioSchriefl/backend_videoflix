@@ -1,6 +1,6 @@
 import subprocess
 import os
-from .models import Thumbnail
+
 
 def create_thumbnail(video):
     video_path = video.file.path
