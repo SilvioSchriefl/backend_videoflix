@@ -18,12 +18,13 @@ from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 
 
-CACHETTL = getattr(settings, 'CACHETTL', DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-# @cachepage(CACHETTL)
+
 
 
 class RegisterView(APIView):
+    
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -47,6 +48,7 @@ class RegisterView(APIView):
     
     
 class ConfirmRegistrationView(APIView):
+   
     def get(self, request, uid, token):
         try:
             uid = urlsafe_base64_decode(uid).decode('utf-8')
@@ -65,6 +67,7 @@ class ConfirmRegistrationView(APIView):
             return redirect('https://videoflix.silvio-schriefl.de/#/email_not_confirmed')
         
 class LoginView(APIView):
+    
     
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -95,13 +98,14 @@ class LoginView(APIView):
 class LogoutView(APIView):
     
     permission_classes = [IsAuthenticated] 
-    
+   
     def post(self, request):
         logout(request)
         return Response({"detail": "Logout erfolgreich."}, status=status.HTTP_200_OK)
         
         
 class RequestResetPasswordView(APIView):
+   
     
     def post(self, request):
         serializer = ResetPasswordSerializer(data=request.data)
@@ -132,6 +136,7 @@ class RequestResetPasswordView(APIView):
     
     
 class ResetPasswordView(APIView):
+   
     def get(self, request, uid, token):
         try:
             uid = urlsafe_base64_decode(uid).decode('utf-8')
@@ -146,6 +151,7 @@ class ResetPasswordView(APIView):
             return redirect('https://videoflix.silvio-schriefl.de/#/set_new_password_error')
             
 class SetNewPasswordView(APIView):
+   
     
     def post(self, request):
         serializer = SetNewPasswordSerializer(data=request.data)
@@ -166,6 +172,7 @@ class SetNewPasswordView(APIView):
 class WatchlistView(APIView):
     
     permission_classes = [IsAuthenticated] 
+   
     
     def patch(self, request, user_id):
         user = get_object_or_404(CustomUser, id=user_id)
@@ -183,6 +190,7 @@ class WatchlistView(APIView):
     
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated] 
+    
 
     def delete(self, request):
         user = request.user  
@@ -196,6 +204,7 @@ class DeleteAccountView(APIView):
 class VideoView(APIView):
 
     permission_classes = [IsAuthenticated]
+  
 
     def post(self, request):
         user = request.user
