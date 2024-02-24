@@ -46,7 +46,7 @@ class Video(models.Model):
     thumbnail = models.ImageField(upload_to='thumbnails', blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     file_480p = models.FileField(upload_to='videos', max_length=100, blank=True)
-    file_size = models.IntegerField(default=0, blank=True, null=True)
+    file_size = models.CharField(default=0, blank=True, null=True)
     
 
     
