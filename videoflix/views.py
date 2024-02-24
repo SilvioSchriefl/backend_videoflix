@@ -4,7 +4,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, VideoSerializer, WatchlistSerializer
-from .models import CustomUser 
+from .models import CustomUser, Video
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
@@ -205,6 +205,16 @@ class VideoView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def get (self, request):
+        user = request.user
+        if user:
+            videos = Video.objects.filter(user=user)
+            serializer = VideoSerializer(videos, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+    
         
  
         
