@@ -17,7 +17,7 @@ def create_thumbnail(video):
     except subprocess.CalledProcessError as e:
        
         thumbnail_path = './media/placeholder.png'
-        video.thumbnail.save(thumbnail_path, File(open(thumbnail_path, 'rb')), save=False)
+        video.thumbnail.save('./placeholder.png', File(open(thumbnail_path, 'rb')), save=False)
         video.save()
 
 
