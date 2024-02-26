@@ -15,6 +15,9 @@ def delete_video_file(sender, instance, **kwargs):
     if instance.thumbnail and os.path.isfile(instance.thumbnail.path):
         os.remove(instance.thumbnail.path)
 
+    if instance.file_480p and os.path.isfile(instance.file_480p.path):
+        os.remove(instance.file_480p.path)
+
 @receiver(post_save, sender=Video)
 def save_video(instance, created, **kwargs):
     if created:

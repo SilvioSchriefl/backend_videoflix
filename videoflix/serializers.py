@@ -41,4 +41,4 @@ class WatchlistSerializer(serializers.ModelSerializer):
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ['title', 'description', 'file', 'thumbnail', 'user', 'file_480p', 'file_size'] 
+        fields = ['title', 'description', 'file', 'thumbnail', 'user', 'file_480p', 'file_size', 'id',] 

@@ -223,6 +223,15 @@ class VideoView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+    def delete (self, request):
+        video = get_object_or_404(Video, id=request.data.get('id'))
+        if video:
+            video.delete()
+            return Response({"detail": "Video successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({"detail": "Video not found."}, status=status.HTTP_404_NOT_FOUND)
+
     
         
  
