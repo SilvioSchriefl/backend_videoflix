@@ -42,3 +42,9 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = ['title', 'description', 'file', 'thumbnail', 'user', 'file_480p', 'file_size', 'id',] 
+
+class EditUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['user_name', 'email',]
+     

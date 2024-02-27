@@ -3,7 +3,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, VideoSerializer, WatchlistSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ResetPasswordSerializer, SetNewPasswordSerializer, VideoSerializer, WatchlistSerializer, EditUserSerializer
 from .models import CustomUser, Video
 from rest_framework.views import APIView
 from django.core.mail import send_mail
@@ -236,6 +236,24 @@ class VideoView(APIView):
         video = get_object_or_404(Video, id=request.data.get('id'))
         serializer = VideoSerializer(video, data=request.data, partial=True)
         if serializer.is_valid() and video:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+class EditUserView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = request.user
+        email = request.data.get('email')
+        serializer = EditUserSerializer(user, data=request.data, partial=True)
+
+        if CustomUser.objects.filter(email=email).exists():
+            return Response({"detail": "Email already in use."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user and serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
