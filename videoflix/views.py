@@ -231,6 +231,15 @@ class VideoView(APIView):
             return Response({"detail": "Video successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({"detail": "Video not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+    def patch (self, request):
+        video = get_object_or_404(Video, id=request.data.get('id'))
+        serializer = VideoSerializer(video, data=request.data, partial=True)
+        if serializer.is_valid() and video:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
         
