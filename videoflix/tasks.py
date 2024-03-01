@@ -28,9 +28,10 @@ def create_480p(video):
     try:
         cmd = ['ffmpeg', '-i', video_path, '-vf', 'scale=-2:480', video_480p_path]
         subprocess.run(cmd, check=True)
-        video.file_480p.save(video_480p_path, File(open(video_480p_path, 'rb')), save=False)
+        
 
         if os.path.exists(video_path):
+            video.file_480p.save(video_480p_path, File(open(video_480p_path, 'rb')), save=False)
             video.save()
             os.remove(video_480p_path)
         
