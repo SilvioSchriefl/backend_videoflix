@@ -30,12 +30,13 @@ def create_480p(video):
         subprocess.run(cmd, check=True)
         video.file_480p.save(video_480p_path, File(open(video_480p_path, 'rb')), save=False)
 
-        if video.file:
+        if video.file.path:
             video.save()
             os.remove(video_480p_path)
         
         else:
             os.remove(video_480p_path)
+            video.delete()
 
     except subprocess.CalledProcessError as e:
         print(e)
