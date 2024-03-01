@@ -22,7 +22,7 @@ def delete_video_file(sender, instance, **kwargs):
 def save_video(instance, created, **kwargs):
     if created:
         create_thumbnail(instance)
-        #queue = django_rq.get_queue('default', autocommit=True)
-        #queue.enqueue(create_480p, instance)
+        queue = django_rq.get_queue('default', autocommit=True)
+        queue.enqueue(create_480p, instance)
         
       
