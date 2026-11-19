@@ -174,20 +174,21 @@ class WatchlistView(APIView):
     permission_classes = [IsAuthenticated] 
    
     
-    def patch(self, request, user_id):
-        user = get_object_or_404(CustomUser, id=user_id)
-        serializer = WatchlistSerializer(user, data=request.data, partial=True)
+    # Es zählt immer der eingeloggte Nutzer (request.user). Eine user_id in der URL
+    # wird ignoriert, damit niemand die Watchlist eines anderen lesen oder ändern kann.
+
+    def patch(self, request, user_id=None):
+        serializer = WatchlistSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def get(self, request, user_id):
-        user = get_object_or_404(CustomUser, id=user_id)
-        serializer = WatchlistSerializer(user)
+
+    def get(self, request, user_id=None):
+        serializer = WatchlistSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
+
+
 class DeleteAccountView(APIView):
     permission_classes = [IsAuthenticated] 
     
@@ -225,7 +226,8 @@ class VideoView(APIView):
             return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
         
     def delete (self, request, video_id):
-        video = get_object_or_404(Video, id=video_id)
+        # Nur eigene Videos: fremde IDs liefern 404, als gäbe es das Video nicht
+        video = get_object_or_404(Video, id=video_id, user=request.user)
         if video:
             video.delete()
             return Response({"detail": "Video successfully deleted."}, status=status.HTTP_204_NO_CONTENT)
@@ -233,7 +235,7 @@ class VideoView(APIView):
             return Response({"detail": "Video not found."}, status=status.HTTP_404_NOT_FOUND)
         
     def patch (self, request):
-        video = get_object_or_404(Video, id=request.data.get('id'))
+        video = get_object_or_404(Video, id=request.data.get('id'), user=request.user)
         serializer = VideoSerializer(video, data=request.data, partial=True)
         if serializer.is_valid() and video:
             serializer.save()

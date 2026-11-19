@@ -19,6 +19,8 @@ urlpatterns = [
     path('log_in/', LoginView.as_view(), name='login'),
     path('video/', VideoView.as_view(), name='video'),
     path('video/<int:video_id>/', VideoView.as_view(), name='delete_video'),
+    path('watchlist/', WatchlistView.as_view(), name='watchlist'),
+    # Alte Adresse bleibt für bestehende Frontends erhalten; die user_id wird ignoriert.
     path('watchlist/<int:user_id>/', WatchlistView.as_view(), name='get_watchlist'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('edit_user/', EditUserView.as_view(), name='edit_user'),
